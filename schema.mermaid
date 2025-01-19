@@ -1,0 +1,27 @@
+graph TD
+    subgraph Load_Data
+        A[CSV Files] --> |Upload to API| B[FastAPI Endpoint]
+        B --> C[Temporary File Storage]
+    end
+
+    subgraph Data_Preprocessing
+        C --> D[Preprocess Data]
+        D --> E[Feature Engineering]
+    end
+
+    subgraph Save_Raw_Data
+        E --> F[MongoDB - Raw & Normalized Data]
+    end
+
+    subgraph Model_Inference
+        E --> G[Load Pretrained Model]
+        G --> H[Predict House Prices]
+    end
+
+    subgraph Save_Predicted_Data
+        H --> I[PostgreSQL / TimescaleDB - Predictions Table]
+    end
+
+    subgraph Retrieve_Predictions
+        I --> J[API Endpoint for Predictions]
+    end

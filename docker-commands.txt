@@ -1,0 +1,16 @@
+docker build -f dockerfile-TimescaleDB -t timescaledb:latest .
+docker run -d --name timescaledb -e POSTGRES_DB=predictions -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -p 5432:5432 timescaledb:latest
+
+
+docker build -f dockerfile-mongoDB -t mongodb:latest .
+docker run -d --name mongodb -p 27017:27017 mongodb:latest
+
+docker-compose up --build
+
+
+mongosh
+use housing
+db.data.find()
+
+db.data.deleteMany({})
+db.data.drop()

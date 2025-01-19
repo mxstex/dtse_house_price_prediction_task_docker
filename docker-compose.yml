@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  mongodb:
+    build:
+      context: .
+      dockerfile: dockerfile-mongoDB
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - app_network
+
+  postgresdb:
+    build:
+      context: .
+      dockerfile: dockerfile-TimescaleDB
+    container_name: postgresdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app_network
+
+  python_app:
+    build:
+      context: .
+      dockerfile: dockerfile-app
+    container_name: python_app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mongodb
+      - postgresdb
+    volumes:
+      - .:/app
+    networks:
+      - app_network
+
+volumes:
+  mongodb_data:
+  postgres_data:
+
+networks:
+  app_network:

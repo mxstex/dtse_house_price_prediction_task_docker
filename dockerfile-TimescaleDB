@@ -1,0 +1,13 @@
+# Use the official TimescaleDB image
+FROM timescale/timescaledb:latest-pg14
+
+# Expose the default PostgreSQL port
+EXPOSE 5432
+
+# Set environment variables for TimescaleDB credentials
+ENV POSTGRES_DB=predictions
+ENV POSTGRES_USER=postgres
+ENV POSTGRES_PASSWORD=postgres
+
+# Command to start TimescaleDB
+CMD ["postgres"]
