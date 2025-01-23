@@ -13,6 +13,7 @@ __pycache__/
 .vscode/
 .pytest_cache/
 tests/
+analytics/jupyter_analytics/
 
 # Logs and temporary files
 *.log
