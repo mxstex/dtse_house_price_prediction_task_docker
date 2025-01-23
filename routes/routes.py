@@ -2,7 +2,7 @@ from fastapi import HTTPException, APIRouter, UploadFile, File
 from pymongo import MongoClient
 import pandas as pd
 from analytics.preprocessor import preprocess_housing_data
-from database_handler.db_connector import get_postgres_connection
+from database_handler.db_connector import get_postgres_connection, get_mongo_client
 from database_handler.db_queries import (
     insert_data_to_mongo,
     delete_all_from_mongo,
@@ -103,7 +103,8 @@ async def get_data(
     limit: int = 10,
 ):
     try:
-        client = MongoClient(f"mongodb://{Config.MONGO_IP}:27017")
+        client = get_mongo_client()
+        # client = MongoClient(f"mongodb://{Config.MONGO_IP}:27017")
         db = client[db_name]
         collection = db[collection_name]
 
@@ -124,7 +125,8 @@ async def get_data(
 async def health_check():
     logger.info("Performing health check")
     try:
-        client = MongoClient(f"mongodb://{Config.MONGO_IP}:27017")
+        client = get_mongo_client()
+        # client = MongoClient(f"mongodb://{Config.MONGO_IP}:27017")
         client.admin.command("ping")
         client.close()
         return {"status": "healthy"}
@@ -140,7 +142,8 @@ async def process_data(
 ):
     logger.info(f"Starting data processing for {db_name}.{collection_name}")
     try:
-        client = MongoClient(f"mongodb://{Config.MONGO_IP}:27017")
+        client = get_mongo_client()
+        # client = MongoClient(f"mongodb://{Config.MONGO_IP}:27017")
         db = client[db_name]
         collection = db[collection_name]
 
